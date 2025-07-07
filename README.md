@@ -12,7 +12,7 @@ The images are obtained by the existing configured image providers, this provide
 final selection and provide the best image with highest order (such that it is always picked before
 other providers).
 
-This plugin can be further generalized with better configurations if there are enough interests and
+This plugin can be further generalized with better configurations if there are enough interests (raise an issue!) and
 Jellyfin does not provider more configurations to the image fetcher settings.
 
 ## Installation
