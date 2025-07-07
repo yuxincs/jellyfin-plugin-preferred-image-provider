@@ -33,4 +33,5 @@ Jellyfin does not provider more configurations to the image fetcher settings.
 
 3. **Restart Jellyfin server**
 
-4. Enable "Preferred Image Provider" for the libraries you would like it to be enabled.
+4. Enable "Preferred Image Provider" for the libraries you would like it to be enabled (note that this provider must be set as the highest order to override the other providers).
+
