@@ -1,0 +1,13 @@
+{
+  "category": "Metadata",
+  "description": "Intelligently selects poster, logo, and thumbnail images based on the original language of the content, vote count, and image resolution. Helps ensure that content displays culturally appropriate artwork.",
+  "guid": "9993d9ad-27f4-4de7-9a9e-01317e9865f9",
+  "name": "Preferred Image Provider",
+  "overview": "Automatically selects images based on original language and quality metrics",
+  "owner": "Preferred Image Provider",
+  "targetAbi": "10.8.0.0",
+  "timestamp": "2024-01-01T00:00:00.0000000Z",
+  "version": "0.0.1",
+  "changelog": "Initial release with language-based image selection",
+  "sourceUrl": ""
+}

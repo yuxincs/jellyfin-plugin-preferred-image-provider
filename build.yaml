@@ -1,0 +1,22 @@
+name: "JellyfinPreferredImageProvider"
+guid: "9993d9ad-27f4-4de7-9a9e-01317e9865f9"
+version: "0.0.1"
+targetAbi: "10.9.0.0"
+framework: "net8.0"
+owner: "Preferred Image Provider"
+overview: "Automatically selects images based on original language and quality metrics"
+description: "Intelligently selects poster, logo, and thumbnail images based on the original language of the content, vote count, and image resolution. Helps ensure that content displays culturally appropriate artwork."
+category: "Metadata"
+tags:
+  - "metadata"
+  - "images"
+  - "language"
+  - "poster"
+  - "logo"
+  - "thumb"
+changelog: >
+  Initial release:
+  - Language-based image selection
+  - Support for Primary, Logo, and Thumb images
+  - Configurable quality thresholds
+  - Support for Movies and TV Series
