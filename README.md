@@ -20,7 +20,7 @@ Jellyfin does not provider more configurations to the image fetcher settings.
 1. **Build the plugin** (requires dotnet 8.0):
 
    ```bash
-   cd jellyfin-plugin-image-preference
+   cd jellyfin-plygin-preferred-image-provider
    dotnet build -c Release
    ```
 
