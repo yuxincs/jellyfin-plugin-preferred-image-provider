@@ -86,7 +86,7 @@ namespace JellyfinPreferredImageProvider.Providers
     /// <returns>True if the item is supported.</returns>
     public bool Supports(BaseItem item)
     {
-      return (item is Movie) || (item is Series);
+      return (item is Movie) || (item is Series) || (item is Season);
     }
 
     /// <summary>

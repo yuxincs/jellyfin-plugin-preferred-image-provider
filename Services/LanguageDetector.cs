@@ -36,6 +36,14 @@ namespace JellyfinPreferredImageProvider.Services
       {
         _logger.LogInformation("Detecting language for item '{ItemName}' (Type: {ItemType})", item.Name, item.GetType().Name);
 
+        // Special handling for Season - get language from parent Series
+        if (item is Season season && season.Series != null)
+        {
+          _logger.LogInformation("Season '{SeasonName}' found, using parent series '{SeriesName}' for language detection", 
+            season.Name, season.Series.Name);
+          return DetectOriginalLanguage(season.Series);
+        }
+
         // Try various language detection methods
         string detectedLanguage = null;
 

@@ -5,7 +5,7 @@ targetAbi: "10.9.0.0"
 framework: "net8.0"
 owner: "Preferred Image Provider"
 overview: "Automatically selects images based on original language and quality metrics"
-description: "Intelligently selects poster, logo, and thumbnail images based on the original language of the content, vote count, and image resolution. Helps ensure that content displays culturally appropriate artwork."
+description: "Intelligently selects poster, logo, and thumbnail images based on the original language of the content, vote count, and image resolution. Helps ensure that content displays culturally appropriate artwork. Supports Movies, TV Series, and TV Seasons."
 category: "Metadata"
 tags:
   - "metadata"
@@ -19,4 +19,4 @@ changelog: >
   - Language-based image selection
   - Support for Primary, Logo, and Thumb images
   - Configurable quality thresholds
-  - Support for Movies and TV Series
+  - Support for Movies, TV Series, and TV Seasons

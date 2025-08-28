@@ -2,7 +2,7 @@
 
 **⚠️ This is a hacky stop-gap solution** to allow setting more preferences for the image fetcher while waiting for official Jellyfin image selection improvements for Jellyfin 10.9.0+.
 
-This plugin provides images for Movies / TV Series based on hardcoded priorities:
+This plugin provides images for Movies / TV Series / Seasons based on hardcoded priorities:
 
 1. **Language**: Original language of the movie/series > preferred metadata language > English
 2. **Number of votes**: Images with more votes are preferred
@@ -34,4 +34,3 @@ Jellyfin does not provider more configurations to the image fetcher settings.
 3. **Restart Jellyfin server**
 
 4. Enable "Preferred Image Provider" for the libraries you would like it to be enabled (note that this provider must be set as the highest order to override the other providers).
-
