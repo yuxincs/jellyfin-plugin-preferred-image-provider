@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MediaBrowser.Model.Dto;
+using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.Providers;
 using Microsoft.Extensions.Logging;
 
@@ -90,8 +91,8 @@ namespace JellyfinPreferredImageProvider.Services
       // Use the longest edge so portrait and landscape images share the same tiers.
       var longestEdge = Math.Max(image.Width ?? 0, image.Height ?? 0);
 
-      if (longestEdge >= 3840) return 3; // 4K+
-      if (longestEdge >= 2560) return 2; // 2K (1440p)
+      if (image.Type == ImageType.Backdrop && longestEdge >= 3840) return 3; // Backdrop-only 4K+
+      if (longestEdge >= 2560) return 2; // 2K+ (1440p); top tier for other image types
       if (longestEdge >= 1920) return 1; // 1080p
       return 0; // 720p-, including intermediate sizes and unknown dimensions
     }

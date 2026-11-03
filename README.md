@@ -5,7 +5,7 @@
 This plugin provides images for Movies / TV Series / Seasons based on hardcoded priorities:
 
 1. **Language**: Original language of the movie/series > preferred metadata language > English
-2. **Resolution tier**: 4K+ > 2K > 1080p > 720p-
+2. **Resolution tier**: Logos, primary images, and thumbs use 2K+ > 1080p > 720p-; backdrops use 4K+ > 2K > 1080p > 720p-
 3. **Discounted community rating**: Within the same language priority and resolution tier, prefer the highest `rating × votes / (votes + 10)`
 4. **Number of votes**: Images with more votes win when discounted ratings tie
 
@@ -20,8 +20,10 @@ to vote count when tied. Scores are compared as supplied by the providers, which
 comparable rating scales. No additional provider requests are needed.
 
 Resolution tiers use the longest edge, treating portrait and landscape images consistently:
-4K+ is at least 3840 pixels, 2K (1440p) is 2560–3839 pixels, 1080p is
-1920–2559 pixels, and 720p- is anything below 1920 pixels (including unknown dimensions).
+For logos, primary images, and thumbs, 2K+ is at least 2560 pixels, with no separate 4K tier.
+Backdrops have an additional 4K+ tier at 3840 pixels and above; their 2K tier is 2560–3839 pixels.
+For all image types, 1080p is 1920–2559 pixels, and 720p- is anything below 1920 pixels
+(including unknown dimensions).
 All resolutions within a tier are treated equally; exact pixel count does not break ties.
 
 The images are obtained by the existing configured image providers, this provider simply does the
