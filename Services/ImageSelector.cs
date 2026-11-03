@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MediaBrowser.Model.Dto;
 using MediaBrowser.Model.Providers;
 using Microsoft.Extensions.Logging;
 
@@ -11,6 +12,8 @@ namespace JellyfinPreferredImageProvider.Services
   /// </summary>
   public class ImageSelector
   {
+    private const double RatingVoteWeight = 10;
+
     private readonly ILogger _logger;
 
     /// <summary>
@@ -23,7 +26,7 @@ namespace JellyfinPreferredImageProvider.Services
     }
 
     /// <summary>
-    /// Selects the best image from a collection based on language priority, votes, and resolution.
+    /// Selects the best image from a collection based on language priority, resolution tier, discounted community rating, and votes.
     /// </summary>
     /// <param name="images">Collection of images to select from.</param>
     /// <param name="originalLanguage">The original language of the content.</param>
@@ -41,17 +44,20 @@ namespace JellyfinPreferredImageProvider.Services
           return null;
         }
 
-        // Sort by: (1) language priority, (2) votes, (3) resolution.
+        // Sort by: (1) language, (2) resolution tier, (3) discounted rating, (4) votes.
         var bestImage = imageList
           .OrderByDescending(img => GetLanguagePriority(img, originalLanguage, metadataLanguage))
+          .ThenByDescending(GetResolutionTier)
+          .ThenByDescending(GetDiscountedRating)
           .ThenByDescending(img => img.VoteCount ?? 0)
-          .ThenByDescending(img => (long)((img.Width ?? 0) * (img.Height ?? 0)))
           .First();
 
         var languageType = GetLanguageType(bestImage, originalLanguage, metadataLanguage);
         _logger.LogInformation("Selected {LanguageType} {ImageType} image for item '{ItemName}': " +
-                       "Language='{Language}', Votes={Votes}, Resolution={Width}x{Height}",
+                       "Language='{Language}', Rating={Rating}, RatingType={RatingType}, " +
+                       "DiscountedRating={DiscountedRating}, Votes={Votes}, Resolution={Width}x{Height}",
             languageType, bestImage.Type, itemName, bestImage.Language ?? "unknown",
+            bestImage.CommunityRating, bestImage.RatingType, GetDiscountedRating(bestImage),
             bestImage.VoteCount ?? 0, bestImage.Width ?? 0, bestImage.Height ?? 0);
 
         return bestImage;
@@ -61,6 +67,33 @@ namespace JellyfinPreferredImageProvider.Services
         _logger.LogError(ex, "Error selecting best image for item '{ItemName}'", itemName);
         return null;
       }
+    }
+
+    private static double GetDiscountedRating(RemoteImageInfo image)
+    {
+      var votes = image.VoteCount ?? 0;
+      if (image.RatingType != RatingType.Score
+          || votes <= 0
+          || image.CommunityRating is not double rating
+          || !double.IsFinite(rating)
+          || rating < 0)
+      {
+        return 0;
+      }
+
+      // Discount scores with few votes without requiring a baseline or vote cutoff.
+      return rating * (votes / (votes + RatingVoteWeight));
+    }
+
+    private static int GetResolutionTier(RemoteImageInfo image)
+    {
+      // Use the longest edge so portrait and landscape images share the same tiers.
+      var longestEdge = Math.Max(image.Width ?? 0, image.Height ?? 0);
+
+      if (longestEdge >= 3840) return 3; // 4K+
+      if (longestEdge >= 2560) return 2; // 2K (1440p)
+      if (longestEdge >= 1920) return 1; // 1080p
+      return 0; // 720p-, including intermediate sizes and unknown dimensions
     }
 
     private int GetLanguagePriority(RemoteImageInfo image, string originalLanguage, string metadataLanguage)
